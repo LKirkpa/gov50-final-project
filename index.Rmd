@@ -7,9 +7,7 @@ output:
     self_contained: false
 ---
 
-
-
-## Project thoughts
+## Project Thoughts
 
 I am interested in exploring data related to the relationship of race and what people choose to declare as a concentration at Harvard (or general majors across the country). As someone that has yet to declare, I feel as though that one's sense of "truly belonging" in a concentration (in regard to race) has influenced why people choose to study a particular field.
 
