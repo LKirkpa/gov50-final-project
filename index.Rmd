@@ -12,3 +12,20 @@ output:
 ## Project thoughts
 
 I am interested in exploring data related to the relationship of race and what people choose to declare as a concentration at Harvard (or general majors across the country). As someone that has yet to declare, I feel as though that one's sense of "truly belonging" in a concentration (in regard to race) has influenced why people choose to study a particular field.
+
+## Proposal 
+How do greater societal factors concerning identity sway an undergraduate's decision to declare a specific major? More specifically, how do race and sex influence the major that post-secondary students decide to declare? In the following project, I aim to explore the lack of diversity in specific academic fields across educational institutions within the United States. I hypothesize that the diversity of the faculty teaching influences a student's decision to declare a particular major, resulting in students of historically marginalized communities to declare majors that correlate with their identity (in relation to faculty or peers). Put simply,I believe that a lack of representation may deter a student from declaring a certain major. Ultimately, I propose that there is a clear relationship between one's race, sex, along with the faculty diversity for a specific academic field, and the major a student declares in college. With a better understanding over how these variables impact one's decision to declare a particular field of study, we can then point to possibly WHY certain academic fields have a specific make-up of declared students (i.e. a racial or sex gap). My OUTCOME VARIABLE of interest is the NUMBER of students in each racial and sex group that DECLARE a particular major. Such ratios are measured from 1976-77 through 2020-21 by surveys conducted by the National Center for Education Statistics. My EXPLANATORY VARIABLE of interest would therefore be the racial diversity in faculty for each major/academic field overtime from 2015 to 2016 (this data stems from an academic article, "Representation and Salary Gaps by Race-Ethnicity and Gender at Selective Public Universities"), along with the identity of the students declaring said major (the students' RACE and SEX). To SUPPORT my thesis of race, sex, and faculty diversity influencing what major one declares, there would need to be an observable correlation in values between the diversity of specific majors across race and sex, and the diversity of faculty. In other words, if there were to be less Black students in one field of study, there would need to be less Black professors in this field. A direct reflection in values would illustrate how those of marginalized communities may deter from declaring a particular field of study that fails to be representative of their own identity. Thus, to DISPROVE my hypothesis, there would be NO observable inconsistent pattern/skew in data in regard to the race and sex distribution across majors, and no shared pattern of racial/sex diversity with faculty. One would observe an even distribution of those of different races and sexes across the listed majors, along with a faculty unrepresentative of this distribution, demonstrating a LACK of correlation between the diversity of faculty and the diversity of those in a particular field. 
+
+## Possible Data Source (IPEDS Integrated Postsecondary Education Data System)
+```{r}
+Bachelor_s_degrees_ 
+```
+```{r}
+Faculty_diversity_by_subject
+```
+
+```{r}
+Faculty_Data 
+
+```
+
