@@ -26,7 +26,8 @@ To SUPPORT my thesis of race, income, and faculty diversity influencing what maj
 ```{r}
 library(ggplot2)
 library(tidyverse)
-summary(acs) 
+acs <- readRDS("acs.rds")
+
 P1 <- ggplot(acs, aes(x = race, y = income)) + geom_jitter(size = .25, alpha = .1) + labs(title = "Race & Income", x = "Race of Respondent", y = "Income of Respondent")
 P1
 ```
