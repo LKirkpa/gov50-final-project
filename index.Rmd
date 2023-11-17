@@ -35,18 +35,25 @@ The above produces a data visualization that comments on the distribution of inc
 
 
 ```{r}
+edu_diff <- acs |>
+  group_by(race,edu) |>
+  summarize(income_mean = mean(income, na.rm = T))
 
-  
-edu_diff <- edu_diff %>% 
-  filter(!is.na(edu))
+edu_diff <- left_join(acs,edu_diff,by=c("race","edu")) %>% 
+  filter(!is.na(edu)) |>
+  #select(race,edu,income_mean) |>
+  distinct(race,edu,income_mean)
 
-  
-ggplot(edu_diff) + 
-         geom_col(aes(x = race, y = income_mean, fill = race)) +
-         facet_wrap(~edu, labeller = label_wrap_gen(width=0.5)) + theme(strip.background = element_rect(fill="beige", size= 0.5, color="brown"), panel.spacing.x = unit(1, "cm")) + labs(title = "Race & Income on Education", x = "Race of Respondent", y = "Avg. Income", caption = "American Community Survey 2000 (U.S. Census Bureau)")
+ggplot(edu_diff, aes(y=income_mean,x=race)) + 
+  geom_bar(position = "dodge", stat="identity") + 
+  facet_wrap(~edu,nrow=1) + 
+  theme(
+    axis.text.x = element_text(angle=45,hjust=1),
+    strip.text.x = element_text(size=7),
+    strip.background = element_rect(fill="beige", size= 0.5, color="brown"),
+    panel.spacing.x = unit(1, "cm")) + 
+  labs(title = "Race & Income on Education", x = "Race of Respondent", y = "Avg. Income", caption = "American Community Survey 2000 (U.S. Census Bureau)")
 
-edu_diff
-knitr::kable(edu_diff, col.names = c("Race", "Education", "Income"))
 
 acs$race <- as.factor(acs$race)
 levels <- c("White", "Black", "Asian", "Hispanic", "Other")
@@ -58,37 +65,16 @@ summary(lm(income ~ race + edu, data = acs))
 
 
 
-```{r}
-ate <- acs |>
-  mutate(Race_Respondent = if_else(race == "White", "White", "BIPOC"), 
-         College_Exposure = if_else(edu < 3, "Less Than College", "College Exposed")) |>
-  group_by(Race_Respondent, College_Exposure) |>
-  summarize(income_mean = mean(income)) |>
-  pivot_wider(names_from = Race_Respondent,
-                values_from = income_mean) |>
-  mutate(ATE = White - BIPOC)
-
-ate
-```
-
-```{r}
-ate_race <- acs |>
-  group_by(race, income) |>
-  summarize(edu_mean = mean(edu)) |>
-  pivot_wider(names_from = c(race, income), 
-              values_from = mean(edu)) |>
-  mutate(ATE_Race = 
-           ATE_Income = 
-           ATE_Diff = ATE_Race - ATE_Income)
-  
-```
 
 
 
 
 
 
-```{r}
+
+
+
+```{r,eval=FALSE}
 library(tidyverse)
 library(dplyr)
 Table1 <- read.csv("Wompwomp.csv")
@@ -100,13 +86,12 @@ Cleaned_Table
 
   
 ```
-```{r}
+
+```{r,eval=FALSE}
 column_names <- colnames(Cleaned_Table)
 column_names
 new_coumn_names <- c("",)
 colnames(Table1) <- new_column_names
-```
-```{r}
 current_row_names <- rownames(Cleaned_Table)
 new_row_names <- c(
 "Field of study",
@@ -152,7 +137,7 @@ Cleaned_Table
 ```
 
 
-```{r}
+```{r,eval=FALSE}
 acs <- acs |>
     mutate(College_Exposure = case_when(
       edu == 1 ~ "Less Than Highschool", 
@@ -188,7 +173,7 @@ summary(lm(income ~ race + edu, data = acs))
 
 
 
-```{r}
+```{r,eval=FALSE}
 Cleaned_Table
 rownames(Cleaned_Table)
 ```

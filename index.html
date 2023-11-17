@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["Faculty_diversity_by_subject_M3.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","Race_and_Field.csv"]}
+  {"type":"character","attributes":{},"value":["Faculty_diversity_by_subject_M3.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","Race_and_Field.csv","Wompwomp.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1537,7 +1537,161 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p><img src="index_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
 </div>
 <p>The above produces a data visualization that comments on the distribution of income among respondents of the 2000 American Community Survey (ACS) in regard to race. Besides creating another data visualization for the 2020 American Community Survey (for comparison and thus, progress), I hope to develop another data visualization that includes the race of post-secondary students in relation to these students’ educational achievement (type of degree) and the field of study of said degree. This data visualization would be achieved through cleaning up the data cited by the National Center for Education Statistics. My hope is that I would be able to draw out a conclusion on the relationship between one’s race/income and one’s chosen field of study through comparing the two visualizations.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>edu_diff</span> <span class='op'>&lt;-</span> <span class='va'>acs</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>,<span class='va'>edu</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>income_mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>income</span>, na.rm <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>edu_diff</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>acs</span>,<span class='va'>edu_diff</span>,by<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"race"</span>,<span class='st'>"edu"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>edu</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='co'>#select(race,edu,income_mean) |&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>race</span>,<span class='va'>edu</span>,<span class='va'>income_mean</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>edu_diff</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y<span class='op'>=</span><span class='va'>income_mean</span>,x<span class='op'>=</span><span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='st'>"dodge"</span>, stat<span class='op'>=</span><span class='st'>"identity"</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>edu</span>,nrow<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span></span>
+<span>    axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle<span class='op'>=</span><span class='fl'>45</span>,hjust<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>,</span>
+<span>    strip.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size<span class='op'>=</span><span class='fl'>7</span><span class='op'>)</span>,</span>
+<span>    strip.background <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_rect</a></span><span class='op'>(</span>fill<span class='op'>=</span><span class='st'>"beige"</span>, size<span class='op'>=</span> <span class='fl'>0.5</span>, color<span class='op'>=</span><span class='st'>"brown"</span><span class='op'>)</span>,</span>
+<span>    panel.spacing.x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/unit.html'>unit</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='st'>"cm"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Race &amp; Income on Education"</span>, x <span class='op'>=</span> <span class='st'>"Race of Respondent"</span>, y <span class='op'>=</span> <span class='st'>"Avg. Income"</span>, caption <span class='op'>=</span> <span class='st'>"American Community Survey 2000 (U.S. Census Bureau)"</span><span class='op'>)</span></span></code></pre>
+</div>
+<img src="index_files/figure-html5/unnamed-chunk-2-1.png" width="624" />
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>acs</span><span class='op'>$</span><span class='va'>race</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>acs</span><span class='op'>$</span><span class='va'>race</span><span class='op'>)</span></span>
+<span><span class='va'>levels</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"White"</span>, <span class='st'>"Black"</span>, <span class='st'>"Asian"</span>, <span class='st'>"Hispanic"</span>, <span class='st'>"Other"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>acs</span><span class='op'>$</span><span class='va'>race</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>levels</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>income</span> <span class='op'>~</span> <span class='va'>race</span> <span class='op'>+</span> <span class='va'>edu</span>, data <span class='op'>=</span> <span class='va'>acs</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = income ~ race + edu, data = acs)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-68853 -15205  -6303   7360 695985 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          8440.4     1406.1   6.003 1.97e-09 ***
+raceBlack             187.6     1529.2   0.123    0.902    
+raceAsian             977.3     1530.8   0.638    0.523    
+raceHispanic        -1076.7     2042.0  -0.527    0.598    
+raceOther            5862.8     1363.9   4.299 1.73e-05 ***
+eduHigh School       8850.4      698.5  12.671  &lt; 2e-16 ***
+eduSome College     15386.9      701.9  21.920  &lt; 2e-16 ***
+eduBachelors        32635.6      850.4  38.375  &lt; 2e-16 ***
+eduAdvanced Degree  54549.9     1055.3  51.692  &lt; 2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 35960 on 21228 degrees of freedom
+  (6173 observations deleted due to missingness)
+Multiple R-squared:  0.1578,    Adjusted R-squared:  0.1575 
+F-statistic: 497.1 on 8 and 21228 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span><span class='va'>Table1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"Wompwomp.csv"</span><span class='op'>)</span></span>
+<span><span class='va'>Cleaned_Table</span> <span class='op'>&lt;-</span> <span class='va'>Table1</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>41</span><span class='op'>:</span><span class='fl'>45</span><span class='op'>)</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='op'>-</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>Cleaned_Table</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>column_names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>Cleaned_Table</span><span class='op'>)</span></span>
+<span><span class='va'>column_names</span></span>
+<span><span class='va'>new_coumn_names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>""</span>,<span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>Table1</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>new_column_names</span></span>
+<span><span class='va'>current_row_names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>Cleaned_Table</span><span class='op'>)</span></span>
+<span><span class='va'>new_row_names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span><span class='st'>"Field of study"</span>,</span>
+<span><span class='st'>"Agriculture and natural resources"</span>, </span>
+<span><span class='st'>"Architecture and related services"</span>,</span>
+<span><span class='st'>"Area, ethnic, cultural, gender, and group studies"</span>,  </span>
+<span><span class='st'>"Biological and biomedical sciences"</span>,</span>
+<span><span class='st'>"Business"</span>,</span>
+<span><span class='st'>"Communication, journalism, and related programs"</span>,  </span>
+<span><span class='st'>"Communications technologies"</span>,  </span>
+<span><span class='st'>"Computer and information sciences and support services"</span>,</span>
+<span><span class='st'>"Education"</span>,</span>
+<span><span class='st'>"Engineering technologies"</span>,  </span>
+<span><span class='st'>"English language and literature/letters"</span>,  </span>
+<span><span class='st'>"Family and consumer sciences/human sciences"</span>,  </span>
+<span><span class='st'>"Foreign languages, literatures, and linguistics"</span>,  </span>
+<span><span class='st'>"Health professions and related programs"</span>,  </span>
+<span><span class='st'>"Homeland security, law enforcement, and firefighting"</span>,  </span>
+<span><span class='st'>"Legal professions and studies"</span>,</span>
+<span><span class='st'>"Liberal arts and sciences, general studies, and humanities"</span>,  </span>
+<span><span class='st'>"Library science"</span>,</span>
+<span><span class='st'>"Mathematics and statistics"</span>,  </span>
+<span><span class='st'>"Military technologies and applied sciences"</span>,  </span>
+<span><span class='st'>"Multi/interdisciplinary studies"</span>,</span>
+<span><span class='st'>"Parks, recreation, leisure, fitness, and kinesiology"</span>,  </span>
+<span><span class='st'>"Philosophy and religious studies"</span>,  </span>
+<span><span class='st'>"Physical sciences and science technologies"</span>,  </span>
+<span><span class='st'>"Precision production"</span>,  </span>
+<span><span class='st'>"Psychology"</span>,  </span>
+<span><span class='st'>"Public administration and social services"</span>,  </span>
+<span><span class='st'>"Social sciences and history"</span>,</span>
+<span><span class='st'>"Social sciences"</span>,  </span>
+<span><span class='st'>"History"</span>,  </span>
+<span><span class='st'>"Theology and religious vocations"</span>,  </span>
+<span><span class='st'>"Transportation and materials moving"</span>,  </span>
+<span><span class='st'>"Visual and performing arts"</span>,  </span>
+<span><span class='st'>"Other and not classified"</span><span class='op'>)</span></span>
+<span><span class='va'>current_row_names</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span>, <span class='fl'>10</span>, <span class='fl'>11</span>, <span class='fl'>12</span>, <span class='fl'>13</span>, <span class='fl'>14</span>, <span class='fl'>15</span>, <span class='fl'>16</span>, <span class='fl'>17</span>, <span class='fl'>18</span>, <span class='fl'>19</span>, <span class='fl'>20</span>, <span class='fl'>21</span>, <span class='fl'>22</span>, <span class='fl'>23</span>, <span class='fl'>24</span>, <span class='fl'>25</span>, <span class='fl'>26</span>, <span class='fl'>27</span>, <span class='fl'>28</span>, <span class='fl'>29</span>, <span class='fl'>30</span>, <span class='fl'>31</span>, <span class='fl'>32</span>, <span class='fl'>33</span>, <span class='fl'>34</span>, <span class='fl'>35</span>, <span class='fl'>36</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>new_row_names</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>Cleaned_Table</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>current_row_names</span></span>
+<span><span class='va'>Cleaned_Table</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>acs <span class="ot">&lt;-</span> acs <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">College_Exposure =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>      edu <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">&quot;Less Than Highschool&quot;</span>, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      edu <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">&quot;High School&quot;</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      edu <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">&quot;Some College&quot;</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      edu <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">&quot;Bachelors&quot;</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      edu <span class="sc">==</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">&quot;Advanced Degree&quot;</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>ate_edu <span class="ot">&lt;-</span> acs <span class="sc">|&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(race, College_Exposure) <span class="sc">|&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">income_mean =</span> <span class="fu">mean</span>(income)) <span class="sc">|&gt;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> race, </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> income_mean) <span class="sc">|&gt;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ATE =</span> ())</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>edu_diff <span class="ot">&lt;-</span> edu_diff <span class="sc">%&gt;%</span> </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(edu))</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(edu_diff) <span class="sc">+</span> </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>         <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> race, <span class="at">y =</span> income_mean)) <span class="sc">+</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>         <span class="fu">facet_wrap</span>(<span class="sc">~</span>edu)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>edu_diff</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(edu_diff, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Race&quot;</span>, <span class="st">&quot;Education&quot;</span>, <span class="st">&quot;Income&quot;</span>))</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>acs<span class="sc">$</span>race <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(acs<span class="sc">$</span>race)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>levels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;White&quot;</span>, <span class="st">&quot;Black&quot;</span>, <span class="st">&quot;Asian&quot;</span>, <span class="st">&quot;Hispanic&quot;</span>, <span class="st">&quot;Other&quot;</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(acs<span class="sc">$</span>race) <span class="ot">&lt;-</span> levels</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(income <span class="sc">~</span> race <span class="sc">+</span> edu, <span class="at">data =</span> acs))</span></code></pre></div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>Cleaned_Table</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>Cleaned_Table</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
