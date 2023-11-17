@@ -31,8 +31,167 @@ acs <- readRDS("acs.rds")
 P1 <- ggplot(acs, aes(x = race, y = income)) + geom_jitter(size = .25, alpha = .1) + labs(title = "Race & Income", x = "Race of Respondent", y = "Income of Respondent", caption = "American Community Survey 2000 (U.S. Census Bureau)")
 P1
 ```
-The above produces a data visualization that comments on the distribution of income among respondents of the 2000 American Community Survey (ACS) in regard to race. Besides creating another data visualization for the 2020 American Community Survey (for comparison and thus, progress), I hope to develop another data visualization that includes the race of post-secondary students in relation to these students' educational achievement (type of degree) and the field of study of said degree. This data visualization would be achieved through cleaning up the data cited by the National Center for Education Statistics. My hope is that I would be able to draw out a conclusion on the relationship between one's race/income and one's chosen field of study through comparing the two visualizations. 
+The above produces a data visualization that comments on the distribution of income among respondents of the 2000 American Community Survey (ACS) in regard to race. Besides creating another data visualization for the 2020 American Community Survey (for comparison and thus, progress), I hope to develop another data visualization that includes the race of post-secondary students in relation to these students' educational achievement (type of degree) and the field of study of said degree. This data visualization would be achieved through cleaning up the data cited by the National Center for Education Statistics. My hope is that I would be able to draw out a conclusion on the relationship between one's race/income and one's chosen field of study through comparing the two visualizations.
 
+
+```{r}
+
+  
+edu_diff <- edu_diff %>% 
+  filter(!is.na(edu))
+
+  
+ggplot(edu_diff) + 
+         geom_col(aes(x = race, y = income_mean, fill = race)) +
+         facet_wrap(~edu, labeller = label_wrap_gen(width=0.5)) + theme(strip.background = element_rect(fill="beige", size= 0.5, color="brown"), panel.spacing.x = unit(1, "cm")) + labs(title = "Race & Income on Education", x = "Race of Respondent", y = "Avg. Income", caption = "American Community Survey 2000 (U.S. Census Bureau)")
+
+edu_diff
+knitr::kable(edu_diff, col.names = c("Race", "Education", "Income"))
+
+acs$race <- as.factor(acs$race)
+levels <- c("White", "Black", "Asian", "Hispanic", "Other")
+levels(acs$race) <- levels
+
+summary(lm(income ~ race + edu, data = acs))
+```
+
+
+
+
+```{r}
+ate <- acs |>
+  mutate(Race_Respondent = if_else(race == "White", "White", "BIPOC"), 
+         College_Exposure = if_else(edu < 3, "Less Than College", "College Exposed")) |>
+  group_by(Race_Respondent, College_Exposure) |>
+  summarize(income_mean = mean(income)) |>
+  pivot_wider(names_from = Race_Respondent,
+                values_from = income_mean) |>
+  mutate(ATE = White - BIPOC)
+
+ate
+```
+
+```{r}
+ate_race <- acs |>
+  group_by(race, income) |>
+  summarize(edu_mean = mean(edu)) |>
+  pivot_wider(names_from = c(race, income), 
+              values_from = mean(edu)) |>
+  mutate(ATE_Race = 
+           ATE_Income = 
+           ATE_Diff = ATE_Race - ATE_Income)
+  
+```
+
+
+
+
+
+
+```{r}
+library(tidyverse)
+library(dplyr)
+Table1 <- read.csv("Wompwomp.csv")
+Cleaned_Table <- Table1 |>
+  slice(-c(41:45))|>
+  slice(-(1:4))
+Cleaned_Table
+
+
+  
+```
+```{r}
+column_names <- colnames(Cleaned_Table)
+column_names
+new_coumn_names <- c("",)
+colnames(Table1) <- new_column_names
+```
+```{r}
+current_row_names <- rownames(Cleaned_Table)
+new_row_names <- c(
+"Field of study",
+"Agriculture and natural resources", 
+"Architecture and related services",
+"Area, ethnic, cultural, gender, and group studies",	
+"Biological and biomedical sciences",
+"Business",
+"Communication, journalism, and related programs",	
+"Communications technologies",	
+"Computer and information sciences and support services",
+"Education",
+"Engineering technologies",	
+"English language and literature/letters",	
+"Family and consumer sciences/human sciences",	
+"Foreign languages, literatures, and linguistics",	
+"Health professions and related programs",	
+"Homeland security, law enforcement, and firefighting",	
+"Legal professions and studies",
+"Liberal arts and sciences, general studies, and humanities",	
+"Library science",
+"Mathematics and statistics",	
+"Military technologies and applied sciences",	
+"Multi/interdisciplinary studies",
+"Parks, recreation, leisure, fitness, and kinesiology",	
+"Philosophy and religious studies",	
+"Physical sciences and science technologies",	
+"Precision production",	
+"Psychology",	
+"Public administration and social services",	
+"Social sciences and history",
+"Social sciences",	
+"History",	
+"Theology and religious vocations",	
+"Transportation and materials moving",	
+"Visual and performing arts",	
+"Other and not classified")
+current_row_names[c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36)] <- new_row_names
+rownames(Cleaned_Table) <- current_row_names
+Cleaned_Table
+
+
+```
+
+
+```{r}
+acs <- acs |>
+    mutate(College_Exposure = case_when(
+      edu == 1 ~ "Less Than Highschool", 
+      edu == 2 ~ "High School",
+      edu == 3 ~ "Some College",
+      edu == 4 ~ "Bachelors",
+      edu == 5 ~ "Advanced Degree"))
+
+ate_edu <- acs |>
+  group_by(race, College_Exposure) |>
+  summarize(income_mean = mean(income)) |>
+    pivot_wider(names_from = race, 
+              values_from = income_mean) |>
+  mutate(ATE = ())
+  
+edu_diff <- edu_diff %>% 
+  filter(!is.na(edu))
+
+  
+ggplot(edu_diff) + 
+         geom_col(aes(x = race, y = income_mean)) +
+         facet_wrap(~edu)
+
+edu_diff
+knitr::kable(edu_diff, col.names = c("Race", "Education", "Income"))
+
+acs$race <- as.factor(acs$race)
+levels <- c("White", "Black", "Asian", "Hispanic", "Other")
+levels(acs$race) <- levels
+
+summary(lm(income ~ race + edu, data = acs))
+```
+
+
+
+```{r}
+Cleaned_Table
+rownames(Cleaned_Table)
+```
 
 
 
