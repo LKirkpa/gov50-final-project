@@ -9,7 +9,7 @@ output:
 
 ## Project Thoughts
 
-I am interested in exploring data related to the relationship of race and what people choose to declare as a concentration at Harvard (or general majors across the country). As someone that has yet to declare, I feel as though that one's sense of "truly belonging" in a concentration (in regard to race) has influenced why people choose to study a particular field. 
+I am interested in exploring data related to the relationship of race and what people choose to declare as a concentration at Harvard (or general majors across the country), along with one's general academic endeavors. As someone that has yet to declare, I feel as though that one's sense of "truly belonging" in a concentration (in regard to race) has influenced why people choose to study a particular field. 
 
 ## Proposal and Data
 
@@ -61,7 +61,7 @@ levels(acs$race) <- levels
 
 summary(lm(income ~ race + edu, data = acs))
 ```
-
+The following visualization speaks to the relationship of race, average income, and one's education. More specifically, this visualization illustrates a clear relationship between one's race and one's level of education. As the level of education becomes more advanced, there are more distinct differences in the average income of respondents of different races. It makes sense for the average income of respondents to be lower when the educational level achieved is lower, as more advanced educational endeavors require more investment (as one would be paying for more tuition to achieve said educational endeavor). However, it is interesting that there are more explicit differences in average income in accordance to race as education level gets more advanced. This being said, one can make a conclusion that a higher income is directly connected with the level of education one may achieve, no matter of one's race. When race is placed into the picture however, it seems that this variable (of race) is connected to one's choices/opportunities in advancing one's education because of race's relation with average income (which must be explored further). On this note, a confounding variable that must be considered includes one's generational wealth, which may vary among respondents of all races. Generational wealth not only impacts one's ability to seek higher education, but also influences one's average income. Thus, race and average income alone do not dictate this pattern of more advanced educational endeavors depending on higher average income and race. All in all, this visualization answers the first part of my research question of race and one's academic endeavors. Certainly, race ties into one's ability to seek higher education, more specifically through the means of average income being influenced/dictated by race to some degree.  
 
 
 
