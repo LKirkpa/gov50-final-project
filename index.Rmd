@@ -33,6 +33,7 @@ P1
 ```
 The above produces a data visualization that comments on the distribution of income among respondents of the 2000 American Community Survey (ACS) in regard to race. Besides creating another data visualization for the 2020 American Community Survey (for comparison and thus, progress), I hope to develop another data visualization that includes the race of post-secondary students in relation to these students' educational achievement (type of degree) and the field of study of said degree. This data visualization would be achieved through cleaning up the data cited by the National Center for Education Statistics. My hope is that I would be able to draw out a conclusion on the relationship between one's race/income and one's chosen field of study through comparing the two visualizations.
 
+##One Analysis That Attempts to Answer Your Research Question 
 
 ```{r}
 edu_diff <- acs |>
