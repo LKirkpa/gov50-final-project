@@ -103,7 +103,9 @@ Use findings to reject the hypothesis that a change in GDP does not change the s
 ```{r}
 fit <- lm(happiness_score ~ GDP_per_capita + social_support, data = WHDF2023 )
 
-broom::tidy(fit) |> knitr::kable()  
+broom::tidy(fit) |>  
+  kbl(caption = "Hypothesis Testing", col.names = c("Independent Variable", "Estimate", "Standard Error", "Statistic", "P Value")) |>
+  kable_classic(full_width = F, html_font = "Cambria")
 ```
 
 
