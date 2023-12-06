@@ -1,0 +1,217 @@
+---
+title: "Gov 50 Final Project"
+author: Lauren Alexes Kirkpatrick
+description: "Money as a Means to Happiness: A Start or an End?"
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+## Introduction
+Philosophy. How should we be living? 
+ 
+
+## Data Section: Source, key dependent & independent variables 
+
+
+```{r}
+library(tidyverse)
+library(dplyr)
+Data1 <- read_csv("WHR2023.csv")
+colnames(Data1)
+
+WHDF2023 <- Data1 |>
+  select(-c(`Ladder score in Dystopia`:`Dystopia + residual`)) |>
+  select(-c(`Standard error of ladder score`: `lowerwhisker`)) |>
+  rename(country = `Country name`, 
+         happiness_score = `Ladder score`, 
+         GDP_per_capita =`Logged GDP per capita`,
+         social_support = `Social support`,
+         life_exp =  `Healthy life expectancy` , 
+         freedom =  `Freedom to make life choices` ,
+         generosity = `Generosity`, 
+         corruption = `Perceptions of corruption`) |>
+  arrange(desc(happiness_score))
+WHDF2023$Year <- "2023"
+WHDF2023
+
+
+Bottom_WHDF2023 <- WHDF2023 |>
+    slice_min(happiness_score, n = 5)
+Bottom_WHDF2023
+
+Top_WHDF2023 <- WHDF2023 |>
+    slice_max(happiness_score, n =5) 
+Top_WHDF2023
+
+
+
+
+WHDF2023_10 <- rbind(Top_WHDF2023, 
+                     Bottom_WHDF2023)
+WHDF2023_10
+
+```
+
+
+```{r}
+Data2 <- read_csv("WHR2019.csv")
+WHDF2019 <- Data2 |>
+  select(-c(`Overall rank`)) |>
+  rename(country = `Country or region`, 
+         happiness_score = Score, 
+         GDP_per_capita =`GDP per capita`,
+         social_support = `Social support`,
+         life_exp =  `Healthy life expectancy` , 
+         freedom =  `Freedom to make life choices` ,
+         generosity = `Generosity`, 
+         corruption = `Perceptions of corruption`) |>
+  arrange(desc(happiness_score)) 
+
+
+WHDF2019$Year <- "2019" 
+WHDF2019
+
+WHDF2019_10 <- 
+  WHDF2019[c(1,2,4,13,5,154,91,129,146,127),]
+
+WHDF2019_10
+```
+
+
+## A Summary of the Dependent Variable (The Main Outcome of Interest)
+
+```{r}
+WHDF2019_VS_WHDF2023 <- rbind(WHDF2019_10, 
+                     WHDF2023_10)
+WHDF2019_VS_WHDF2023
+```
+```{r}
+plot1 <- ggplot(data = WHDF2023 , 
+       mapping = aes(x = GDP_per_capita, 
+                     y = happiness_score)) +
+         geom_point() +
+         geom_smooth(lm = loess) 
+      
+
+plot1
+```
+```{r}
+plot2 <- ggplot(data = WHDF2023 , 
+       mapping = aes(x = GDP_per_capita, 
+                     y = happiness_score)) +
+         geom_point(color = "orange") +
+         geom_smooth(color = "gold") +
+   scale_x_log10()
+      
+
+plot2
+```
+```{r}
+plot2 <- ggplot(data = WHDF2023 , 
+       mapping = aes(x = social_support, 
+                     y = happiness_score)) +
+         geom_point(color = "orange") +
+         geom_smooth(color = "gold") +
+   scale_x_log10()
+      
+
+plot2
+```
+```{r}
+plot3 <- ggplot(data = WHDF2023 , 
+       mapping = aes(x = generosity, 
+                     y = happiness_score)) +
+         geom_point(color = "orange") +
+         geom_smooth(color = "gold") +
+   scale_x_log10()
+      
+
+plot3
+```
+## Results: Main Analysis & Regression Output 
+
+```{r}
+mean_happ_7 <- WHDF2023  |>
+  filter(round(happiness_score) == 7) |>
+  summarize(mean(GDP_per_capita)) |>
+  pull()
+mean_happ_7
+```
+```{r}
+mean_happ_7_2023 <- WHDF2023_10 |>
+  filter(round(happiness_score) == 7) |>
+  summarize(mean(GDP_per_capita)) |>
+  pull()
+mean_happ_7_2023
+```
+```{r}
+mean_happ_7_gen <- WHDF2019_10 |>
+  filter(round(happiness_score) == 7) |>
+  summarize(mean(generosity)) |>
+  pull()
+mean_happ_7_gen
+```
+
+```{r}
+mean_happ_7_gen_2023 <- WHDF2023_10 |>
+  filter(round(happiness_score) == 7) |>
+  summarize(mean(generosity)) |>
+  pull()
+mean_happ_7_gen_2023
+```
+
+
+```{r}
+library(broom)
+ggplot(data = WHDF2023 , aes(x = GDP_per_capita, y = happiness_score)) + geom_point(size = 1.5) +
+  
+ geom_point(aes(x = mean_happ_7, y = 7), color = "lightgoldenrod", size = 4)
+             
+
+```
+```{r}
+ggplot(data = WHDF2023 , aes(x = GDP_per_capita, y = happiness_score)) + geom_point(size = 1.5) + 
+  stat_summary_bin(fun = "mean", color = "lightgoldenrod", size = 4, geom = "point", binwidth = 1) + 
+  geom_smooth(method = "lm", se = FALSE, color = "gold", size = 1.5)
+  
+```
+```{r}
+ggplot(data = WHDF2023_10, aes(x = happiness_score, y = GDP_per_capita, color = country)) + geom_point(size = 1.5) + 
+  stat_summary_bin(fun = "mean", color = "lightgoldenrod", size = 4, geom = "point", binwidth = 1) + 
+  geom_smooth(method = "lm", se = FALSE, color = "gold", size = 1.5)
+```
+
+```{r}
+ggplot(data = WHDF2019_10, aes(x = generosity, y = happiness_score, color = country)) + geom_point(size = 1.5) + 
+  stat_summary_bin(fun = "mean", color = "lightgoldenrod", size = 4, geom = "point", binwidth = 1) + 
+  geom_smooth(method = "lm", se = FALSE, color = "gold", size = 1.5)
+```
+```{r}
+ggplot(data = WHDF2023_10, aes(x = generosity, y = happiness_score, color = country)) + geom_point(size = 1.5) + 
+  stat_summary_bin(fun = "mean", color = "lightgoldenrod", size = 4, geom = "point", binwidth = 1) + 
+  geom_smooth(method = "lm", se = FALSE, color = "gold", size = 1.5)
+```
+
+## Hypothesis Testing...
+Use findings to reject the hypothesis that a change in GDP does not change the score? We reject the null hypothesis if p is greater than alpha value, which will be .05. 
+
+
+```{r}
+fit <- lm(happiness_score ~ GDP_per_capita + social_support + generosity, data = WHDF2023 )
+
+broom::tidy(fit) |> knitr::kable()  
+```
+```{r}
+generosity_happiness_score_lm <- lm(happiness_score ~ generosity, data = WHDF2019_VS_WHDF2023)
+
+summary(generosity_happiness_score_lm)
+```
+```{r}
+plot(generosity_happiness_score_lm)
+```
+
+
+
+
+
