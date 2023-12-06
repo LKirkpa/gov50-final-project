@@ -85,36 +85,29 @@ mean_happ_7_ss
 
 ```{r}
 library(broom)
-ggplot(data = WHDF2023, aes(x = GDP_per_capita, y = happiness_score)) + geom_point(size = 1.5) +
+ggplot(data = WHDF2023 , aes(x = GDP_per_capita, y = happiness_score)) + geom_point(size = 1.5) +
   
-  geom_vline(xintercept = c(6.75,7.25) + geom_point(aes(x = mean(GDP_per_capita) , y = mean_happ_7), color = "lightgoldenrod", size = 4)
+ geom_point(aes(x = mean_happ_7, y = 7), color = "lightgoldenrod", size = 4)
              
-
 ```
 ```{r}
-ggplot(data = WHDF2019_10, aes(x = GDP_per_capita, y = happiness_score, color = country)) + geom_point(size = 1.5) + 
-  stat_summary_bin(fun = "mean", color = "lightgoldenrod", size = 4, geom = "point", binwidth = 1) + 
-  geom_smooth(method = "lm", se = FALSE, color = "gold", size = 1.5)
+ggplot(data = WHDF2023 , aes(x = social_support, y = happiness_score)) + geom_point(size = 1.5) +
   
+ geom_point(aes(x = mean_happ_7_ss, y = 7), color = "lightgoldenrod", size = 4)
+             
 ```
 
 ## Hypothesis Testing...
 Use findings to reject the hypothesis that a change in GDP does not change the score? We reject the null hypothesis if p is greater than alpha value, which will be .05. 
 
-
 ```{r}
-fit <- lm(happiness_score ~ 1 + GDP_per_capita + social_support + generosity, data = WHDF2019_VS_WHDF2023)
+fit <- lm(happiness_score ~ GDP_per_capita + social_support, data = WHDF2023 )
 
 broom::tidy(fit) |> knitr::kable()  
 ```
-```{r}
-generosity_happiness_score_lm <- lm(happiness_score ~ generosity, data = WHDF2019_VS_WHDF2023)
 
-summary(generosity_happiness_score_lm)
-```
-```{r}
-plot(generosity_happiness_score_lm)
-```
+
+
 
 
 
