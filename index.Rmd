@@ -8,7 +8,7 @@ output:
 ---
 
 ## Introduction: Research Question and Main Hypothesis 
-The following project aims to explore the universal strive towards happiness in a world that indeed makes this endeavor seem nearly impossible. What particular factors of one's life and state significantly impact one's happiness? In particular, does one's economic standing play a greater role in one's happiness compared to more social factors, one's relationships? This projects hopes to debunk the notion that "money makes you happy." Thus, I hypothesize that indeed one's relationships more significantly influence one's happiness compared to that of one's economic standing, money.
+The following project aims to explore the universal strive towards happiness in a world that makes this endeavor seem nearly impossible. What particular factors of one's life and state significantly impact one's happiness? In particular, does one's economic standing play a greater role in one's happiness compared to more social factors, one's relationships? This projects hopes to debunk the notion that "money makes you happy." Thus, I hypothesize that indeed one's relationships more significantly influence one's happiness compared to that of one's economic standing, money.
 
 Certainly, one cannot control the happiness of another. However, governments still have an obligation to consider the happiness of its citizens. After all, it is governments who are in a position of power to pursue the necessary means to enact such state-wide change. Therefore, through identifying what exactly drives one's happiness, governments can better formulate initiatives to ensure the achievement of happiness for its citizens, more specifically the accessibility of this universal right. This is to say that the following research question is important as it guides governments on how to address humanity's greater strive towards happiness and universal right to achieving happiness. 
 
@@ -20,7 +20,7 @@ The Gallup World Poll data, the main source of the World Happiness Report, is a 
 
 The above research question can be simplified to exploring the influence of GDP per capita and one's relationships (social support) on one's happiness. Therefore, the main outcome of interest is happiness score, our dependent variable. The independent variables in this case, are a country's GDP per capita and its score of social support. 
 
-
+##Dataset Cleaning and Main Outcome of Interest
 ```{r}
 library(tidyverse)
 library(dplyr)
@@ -46,66 +46,90 @@ WHDF2023 |>
   kable_classic(full_width = F, html_font = "Cambria")
 
 ```
+```{r}
+library(rworldmap)
+library(RColorBrewer)
+d <- data.frame(
+  country=WHDF2023$country,
+  value=WHDF2023$happiness_score)
+cols <- colorRampPalette(brewer.pal(7,"YlOrRd"))(length(WHDF2023))
+n <- invisible(joinCountryData2Map(d, joinCode="NAME", nameJoinColumn="country"))
+mapCountryData(n, nameColumnToPlot="value", mapTitle="Distribution of Happiness Globally",colourPalette=cols, oceanCol = "#88E2F2", addLegend = TRUE,aspect = 1.1, borderCol = "Black", lwd =.1) 
+```
+Here lies a distribution of happiness, our main outcome of interest, across the world. One 
 
-
+##Results: Main Analaysis & Regression Output 
+To be able to compare the effect of GDP per capita and social support, it is essential that we first start by recognizing the relationship between happiness and both variables (i.e. GDP per capita and social support). Again, our main outcome of interest is a country's happiness score. Thus, below lies two scatter plots that reveal how GDP per capita and social relationships influence a country's happiness score, whether this is positive or negative. 
 ```{r}
 plot1 <- ggplot(data = WHDF2023, 
        mapping = aes(x = GDP_per_capita, 
                      y = happiness_score)) +
          geom_point() +
-         geom_smooth(lm = loess) 
-plot1
+         geom_smooth(color = "orange") + 
+         labs(title = "GDP per capita and Happiness", x = "GDP per capita", y = "Happiness") + theme_linedraw() 
 ```
+In this visualization we have GDP per capita as the independent variable and happiness score as the dependent variable. With each country represented by a scatter plot point, we can infer a positive relationship between GDP per capita and happiness score. Here, through the geom_smooth function, I have added a smoothed curve that summarized the relationship between these variables. This function uses a loess smoother to estimate the conditional means of the happiness score (y axis variable) as a function of the GDP per capita (x axis variable). With 
 ```{r}
 plot2 <- ggplot(data = WHDF2023, 
        mapping = aes(x = social_support, 
                      y = happiness_score)) +
          geom_point() +
-         geom_smooth(lm = loess) 
+         geom_smooth(lm = loess, color = "orange") +  labs(title = "Social Support and Happiness", x = "Social Support", y = "Happiness") + 
+  theme_linedraw() 
 plot2
 ```
 
 
-## Results: Main Analysis & Regression Output 
 
-```{r}
-mean_happ_7 <- WHDF2023 |>
-  filter(round(happiness_score) == 7) |>
-  summarize(mean(GDP_per_capita)) |>
-  pull()
-mean_happ_7
-```
-```{r}
-mean_happ_7_ss <- WHDF2023 |>
-  filter(round(happiness_score) == 7) |>
-  summarize(mean(social_support)) |>
-  pull()
-mean_happ_7_ss
-```
+
+## Hypothesis Testing...
+Use findings to reject the hypothesis that a change in GDP and social support do NOT change the score. 
+
+We reject the null hypothesis if p is greater than alpha value, which will be .05. 
+
+Below is a regression model of the data pertaining to GDP per capita and social support. Here, we are able to observe exactly how happiness is impacted depending on changes of the following variables. 
 
 ```{r}
 library(broom)
-ggplot(data = WHDF2023 , aes(x = GDP_per_capita, y = happiness_score)) + geom_point(size = 1.5) +
-  
- geom_point(aes(x = mean_happ_7, y = 7), color = "lightgoldenrod", size = 4)
-             
+fit <- lm(happiness_score ~ GDP_per_capita + social_support, data = WHDF2023)
+summary(fit)
+
+tidy_fit <- tidy(fit)
+tidy_fit
+
 ```
 ```{r}
-ggplot(data = WHDF2023 , aes(x = social_support, y = happiness_score)) + geom_point(size = 1.5) +
-  
- geom_point(aes(x = mean_happ_7_ss, y = 7), color = "lightgoldenrod", size = 4)
-             
+tidy_fit |> kbl(caption = "Main Regression", col.names = c("Term", "Estimate", "Standard Error", "Statistic", "P Value")) |>
+  kable_classic(html_font = "Cambria")
 ```
 
-## Hypothesis Testing...
-Use findings to reject the hypothesis that a change in GDP does not change the score? We reject the null hypothesis if p is greater than alpha value, which will be .05. 
 
 ```{r}
-fit <- lm(happiness_score ~ GDP_per_capita + social_support, data = WHDF2023 )
+var_labels <- c(
+"(Intercept)" = "Intercept",
+"GDP_per_capita" = "GDP per capita",
+"social_support" = "Social Support")
 
-broom::tidy(fit) |>  
-  kbl(caption = "Hypothesis Testing", col.names = c("Independent Variable", "Estimate", "Standard Error", "Statistic", "P Value")) |>
+modelsummary::modelsummary(fit, statistic = "p.value",
+                          gof_map = c("nobs", 
+                          "r.squared","adj.r.squared"), 
+                          coef_map = var_labels) |> 
   kable_classic(full_width = F, html_font = "Cambria")
+```
+
+
+```{r}
+GDP_pval <- tidy_fit |>
+filter(term == "GDP_per_capita") |>
+pull(p.value)
+GDP_pval 
+
+```
+```{r}
+SS_pval <- tidy_fit |>
+filter(term == "social_support") |>
+pull(p.value)
+SS_pval
 ```
 
 
