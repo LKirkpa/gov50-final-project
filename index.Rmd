@@ -1,13 +1,14 @@
 ---
-title: "Gov 50 Final Project"
+title: "The Effect GDP Per Capita and Social Support on Happiness"
 author: Lauren Alexes Kirkpatrick
-description: "Money as a Means to Happiness: A Start or an End?"
+description: "An analysis comparing and contrasting the effect of a country's GDP per capita and one's social support on the overall happiness of the country."
 output:
   distill::distill_article:
     self_contained: false
 ---
 
 ## Research Question and Main Hypothesis 
+
 The following project aims to explore the universal strive towards happiness in a world that makes this endeavor seem nearly impossible. What particular factors of one's life and state significantly impact one's happiness? In particular, does one's economic standing play a significant role in one's happiness? What about one's relationships? This projects hopes to debunk the notion that "money makes you happy." Thus, I hypothesize that indeed one's relationships more significantly influence one's happiness compared to that of one's economic standing, money.
 
 Certainly, one cannot control the happiness of another. However, governments still have an obligation to consider the happiness of its citizens. After all, it is governments who are in a position of power to pursue the necessary means to enact such state-wide change. Therefore, through identifying what exactly drives one's happiness, governments can better formulate initiatives to ensure the achievement of happiness for its citizens, more specifically the accessibility of this universal right. This is to say that the following research question is important as it guides governments on how to address humanity's greater strive towards happiness and universal right to achieving happiness. 
@@ -36,14 +37,15 @@ WHDF2023 <- Data1 |>
          happiness_score = `Ladder score`, 
          GDP_per_capita =`Logged GDP per capita`,
          social_support = `Social support`) |>
-  arrange(desc(happiness_score)) 
+         arrange(desc(happiness_score)) 
 WHDF2023
 
 
 
 WHDF2023 |>
-  kbl(caption = "World Happiness Data 2023", col.names = c("Country", "Happiness Score", "GDP per capita", "Social Support")) |>
-  kable_classic(full_width = F, html_font = "Cambria")
+  kbl(caption = "World Happiness Data 2023", 
+      col.names = c("Country", "Happiness Score", "GDP per capita", "Social Support")) |>
+      kable_classic(full_width = F, html_font = "Cambria")
 
 ```
 ```{r}
@@ -54,7 +56,12 @@ d <- data.frame(
   value=WHDF2023$happiness_score)
 cols <- colorRampPalette(brewer.pal(7,"YlOrRd"))(length(WHDF2023))
 n <- invisible(joinCountryData2Map(d, joinCode="NAME", nameJoinColumn="country"))
-mapCountryData(n, nameColumnToPlot="value", mapTitle="Distribution of Happiness Globally",colourPalette=cols, oceanCol = "#88E2F2", addLegend = TRUE,aspect = 1.1, borderCol = "Black", lwd =.1) 
+mapCountryData(n, nameColumnToPlot="value", 
+               mapTitle="Distribution of Happiness Globally",
+               colourPalette=cols, 
+               oceanCol = "#88E2F2", 
+               addLegend = TRUE,aspect = 1.1, 
+               borderCol = "Black", lwd =.1) 
 
 
 ```
@@ -96,19 +103,25 @@ Both of these scatter plots illustrate the single-variate regressions of GDP per
 
 Although the relationship between happiness score and GDP per capita presents a very similar positive relationship as the relationship between happiness score and socials support, these linear regressions are certainly not the same. To properly compare the two relationships, we must leverage a more specific regression model. Below lies a fitted regression model for the data pertaining to GDP per capita and social support. Now, we are able to observe exactly how happiness is impacted depending on changes of the following variables through performing linear regressions of GDP per capita and social support on happiness score changes of countries. 
 
+
 ```{r}
 library(broom)
+
+
 fit <- lm(happiness_score ~ GDP_per_capita + social_support, data = WHDF2023)
 summary(fit)
 
 tidy_fit <- tidy(fit)
 tidy_fit
 
-tidy_fit_regression <- tidy_fit |> kbl(caption = "Main Regression", col.names = c("Term", "Estimate", "Standard Error", "Statistic", "P Value")) |>
-  kable_classic(html_font = "Cambria")
-tidy_fit_regression
+tidy_fit_regression <- tidy_fit |> 
+  kbl(caption = "Main Regression", 
+      col.names = c("Term", "Estimate", "Standard Error", "Statistic", "P Value"), digits = 3) |>
+      kable_classic(html_font = "Cambria")
+      tidy_fit_regression
 
 ```
+
 
 ```{r}
 var_labels <- c(
@@ -124,19 +137,7 @@ modelsummary::modelsummary(fit,
 ```
 
 
-```{r}
-GDP_pval <- tidy_fit |>
-filter(term == "GDP_per_capita") |>
-pull(p.value)
-GDP_pval 
 
-```
-```{r}
-SS_pval <- tidy_fit |>
-filter(term == "social_support") |>
-pull(p.value)
-SS_pval
-```
 
 With the above model, we can observe how happiness changes based on the specific variables that we want to observe for the study, i.e. GDP per capita and social support. Firstly, the intercept points to the mean value of the response variable, happiness score, when the independent variables (GDP per capita and social support are) held equal to zero. This is to say that the happiness score would be negative when GDP per capita and social support are zero. The standard error for the GDP per capita input is 0.059. Because standard error estimates how much variation we can expect to see in our estimated coefficient across repeated samples, we can infer from this standard error is therefore communicating that we can expect that the average estimated coefficient is around 0.059 away from its true value. Similarly, with the coefficient of social support, we can conclude that we can expect that the average estimated coefficient is around 0.555 away from its true value. 
 
@@ -144,9 +145,20 @@ The following estimated coefficients within this multiple regression represent t
 
 
 ## Conclusion 
-The above results demonstrate that there is indeed a positive relationship between GDP per capita/social support and a country's happiness score. When compared the effect of GDP per capita over social support, one could observe through social support's higher estimated value that it has a greater effect on happiness compared to that of GDP per capita. This is interesting as this was not as clear in our original scatter plots depicting this comparison. This observation of social support having a greater effect on happiness along with us being able to reject the null hypothesis of of no effect, my hypothesis that one's relationships more significantly influence one's happiness compared to that of one's economic standing, money is strongly supported. However, this support does not mean that we can confidently uphold this hypothesis. There are limitations of this analysis, along with threats to inference. These limitations include the previously mentioned confounding variables and most notably missing data from countries. This matters because again, the correlation that we observe here may be due to one of the other variables not present in the regression. And with a lack of data of countries, it would be false for us to make a generalized statement for the world as not all countries would be participating. To improve this analysis if I had more time and money, I would seek to find a way to conduct research in unlisted countries. On a more practical level, I would take the time to consider other variables that drive happiness, particular ones that drive the variables already listed in this study. Similarly, I would attempt to explore confounding variables rather than just acknowledge them. I think it would be interesting to analyze how education drives one's wealth and even one's happiness. This exploration of confounding variables may open the door to the discovery of variables that effect happiness on a greater scale. This would then point governments to form legistlation on these more significant variables, like education perhaps. 
 
+The above results demonstrate that there is indeed a positive relationship between GDP per capita/social support and a country's happiness score. When compared the effect of GDP per capita over social support, one could observe through social support's higher estimated value that it has a greater effect on happiness compared to that of GDP per capita. This is interesting as this was not as clear in our original scatter plots depicting this comparison. This observation of social support having a greater effect on happiness along with us being able to reject the null hypothesis of of no effect, my hypothesis that one's relationships more significantly influence one's happiness compared to that of one's economic standing, money is strongly supported. However, this support does not mean that we can confidently uphold this hypothesis. There are limitations of this analysis, along with threats to inference. These limitations include the previously mentioned confounding variables and most notably missing data from countries. This matters because again, the correlation that we observe here may be due to one of the other variables not present in the regression. And with a lack of data of countries, it would be false for us to make a generalized statement for the world as not all countries would be participating. To improve this analysis if I had more time and money, I would seek to find a way to conduct research in unlisted countries. On a more practical level, I would take the time to consider other variables that drive happiness, particular ones that drive the variables already listed in this study. Similarly, I would attempt to explore confounding variables rather than just acknowledge them. I think it would be interesting to analyze how education drives one's wealth and even one's happiness. This exploration of confounding variables may open the door to the discovery of variables that effect happiness on a greater scale. This would then point governments to form legistlation on these more significant variables, like education perhaps.
 
+## Works Cited
+
+The Comprehensive R Archive Network, cran.r-project.org/web/packages/rworldmap/vignettes/rworldmap.pdf.
+
+"Executive Summary." The World Happiness Report, worldhappiness.report/ed/2023/executive-summary/.
+
+Gallup. "How Does the Gallup World Poll Work?" Gallup.com, 14 Oct. 2014, www.gallup.com/178667/gallup-world-poll-work.aspx.
+
+"World Happiness Report 2023." Kaggle: Your Machine Learning and Data Science Community, www.kaggle.com/datasets/ajaypalsinghlo/world-happiness-report-2023/data.
+
+"World Happiness Report 2023." The World Happiness Report, worldhappiness.report/ed/2023/.
 
 
 
