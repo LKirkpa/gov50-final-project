@@ -1520,13 +1520,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="research-question-and-main-hypothesis">Research Question and Main Hypothesis</h2>
-<p>The following project aims to explore the universal strive towards happiness in a world that makes this endeavor seem nearly impossible. What particular factors of one’s life and state significantly impact one’s happiness? In particular, does one’s economic standing play a greater role in one’s happiness compared to more social factors, one’s relationships? This projects hopes to debunk the notion that “money makes you happy.” Thus, I hypothesize that indeed one’s relationships more significantly influence one’s happiness compared to that of one’s economic standing, money.</p>
+<p>The following project aims to explore the universal strive towards happiness in a world that makes this endeavor seem nearly impossible. What particular factors of one’s life and state significantly impact one’s happiness? In particular, does one’s economic standing play a significant role in one’s happiness? What about one’s relationships? This projects hopes to debunk the notion that “money makes you happy.” Thus, I hypothesize that indeed one’s relationships more significantly influence one’s happiness compared to that of one’s economic standing, money.</p>
 <p>Certainly, one cannot control the happiness of another. However, governments still have an obligation to consider the happiness of its citizens. After all, it is governments who are in a position of power to pursue the necessary means to enact such state-wide change. Therefore, through identifying what exactly drives one’s happiness, governments can better formulate initiatives to ensure the achievement of happiness for its citizens, more specifically the accessibility of this universal right. This is to say that the following research question is important as it guides governments on how to address humanity’s greater strive towards happiness and universal right to achieving happiness.</p>
-<h2 id="data-section">Data Section</h2>
+<h2 id="data-section-source-measurement-of-independent-and-dependent-variables-research-design">Data Section: Source, Measurement of Independent and Dependent Variables, Research Design</h2>
 <p>To answer this question of what factor influences one’s happiness the most, this research project will be using data from the World Happiness Report for the year of 2023. This report stems from the Sustainable Development Solutions Network, which is driven by the Gallup World Poll data. More importantly, the following organization similarly aims to explore happiness with the goal of calling upon governments to consider their own roles in the happiness of its citizens. The data of the report was collected through evaluations made by respondents regarding their own perception of their happiness on the “Cantril ladder.” In the context of this source and thus this report, happiness is defined as one’s “life evaluation.” The following scale asked respondents to think of a ladder with 10 representing one’s “best possible life” and 0 representing the worst. They ultimately rated their own lives on that scale. This information was then observed on six variables (social support, healthy life expectancy, freedom, generosity, corruption, and GDP per capita). Therefore, the happiness rankings that are earned by countries are not based on these factors, but rather the individual assessments of respondents on their lives (i.e. their answer to the Cantril ladder evaluation). (<a href="https://worldhappiness.report/about/" class="uri">https://worldhappiness.report/about/</a>)</p>
-<p>The Gallup World Poll data, the main source of the World Happiness Report, is a survey based data collecting tool. According to the Gallup agency, this poll is conducted through a combination of telephone surveying along with in-person interviewing. For countries that have telephone coverage for at least 80% of the population, telephone surveys are leveraged. Additionally, where telephone interviewing is employed, a random-digit-dial is used. In countries that do not have the above telephone coverage, households are randomly selected for in-person interviewing. Therefore, the RESEARCH DESIGN of this data is a randomized experiment. (<a href="https://www.gallup.com/178667/gallup-world-poll-work.aspx" class="uri">https://www.gallup.com/178667/gallup-world-poll-work.aspx</a>)</p>
-<p>The above research question can be simplified to exploring the influence of GDP per capita and one’s relationships (social support) on one’s happiness. Therefore, the main outcome of interest is happiness score, our dependent variable. The independent variables in this case, are a country’s GDP per capita and its score of social support.</p>
-##Dataset Cleaning and Main Outcome of Interest
+<p>The Gallup World Poll data, the main source of the World Happiness Report, is a survey based data collecting tool. According to the Gallup agency, this poll is conducted through a combination of telephone surveying along with in-person interviewing. For countries that have telephone coverage for at least 80% of the population, telephone surveys are leveraged. Additionally, where telephone interviewing is employed, a random-digit-dial is used. In countries that do not have the above telephone coverage, households are randomly selected for in-person interviewing. (<a href="https://www.gallup.com/178667/gallup-world-poll-work.aspx" class="uri">https://www.gallup.com/178667/gallup-world-poll-work.aspx</a>)</p>
+<p>The above research question can be simplified to exploring the influence of GDP per capita (representing income/money) and one’s relationships (social support) on one’s happiness. Therefore, the main outcome of interest is happiness score, our dependent variable. The independent variables in this case, are a country’s GDP per capita and its score of social support. This exploration of the relationship between happiness score and the above independent variables demonstrates that this report uses a correlational research design. Put simply, this report is an investigation of relationships between variables without manipulating or controlling them.</p>
+<h2 id="dataset-cleaning-and-main-outcome-of-interest">Dataset Cleaning and Main Outcome of Interest</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
@@ -3545,39 +3545,42 @@ Afghanistan
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
 </div>
-<p>Here lies a distribution of happiness, our main outcome of interest, across the world. One</p>
-<p>##Main Analaysis &amp; Regression Output</p>
+<p>Here lies a distribution of happiness, our main outcome of interest, across the world. The dependent variable of this project is happiness score as we are exploring how GDP per capita and social support influences a country’s reported happiness score. As we can see from this map and the above data set, the following project is missing countries. More specifically, there are only 137 rather than 195 countries. Nevertheless, the following visual illustrates the range of happiness scores across the globe. Depending on the shade of each given country, one is able to determine the happiness score of the country. A lighter shade, closer to a pale yellow signifies a lower happiness score. On the other hand, a darker shade, closer to the deep maroon, signifies a higher happiness score. For instance, from this map it is clear that the United States, Canada, Australia, and Finland have higher level of happiness. Furthermore, countries such as Afghanistan, Sierra Leona, and India are less happy then the previously mentioned countries, their happiness score is lower on the index.</p>
+<h2 id="main-analaysis-regression-output">Main Analaysis &amp; Regression Output</h2>
 <p>To be able to compare the effect of GDP per capita and social support, it is essential that we first start by recognizing the relationship between happiness and both variables (i.e. GDP per capita and social support). Again, our main outcome of interest is a country’s happiness score. Thus, below lies two scatter plots that reveal how GDP per capita and social relationships influence a country’s happiness score, whether this is positive or negative.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>plot1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>WHDF2023</span>, </span>
-<span>       mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>GDP_per_capita</span>, </span>
-<span>                     y <span class='op'>=</span> <span class='va'>happiness_score</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>plot1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>WHDF2023</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>GDP_per_capita</span>, y <span class='op'>=</span> <span class='va'>happiness_score</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
 <span>        <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>         <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"orange"</span><span class='op'>)</span> <span class='op'>+</span> </span>
-<span>         <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"GDP per capita and Happiness"</span>, x <span class='op'>=</span> <span class='st'>"GDP per capita"</span>, y <span class='op'>=</span> <span class='st'>"Happiness"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_linedraw</a></span><span class='op'>(</span><span class='op'>)</span> </span>
+<span>        <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='va'>lm</span>, color <span class='op'>=</span> <span class='st'>"orange"</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>        <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"GDP per capita and Happiness"</span>, </span>
+<span>             x <span class='op'>=</span> <span class='st'>"GDP per capita"</span>, </span>
+<span>             y <span class='op'>=</span> <span class='st'>"Happiness"</span>, </span>
+<span>             caption <span class='op'>=</span> <span class='st'>"Source: World Happiness Report 2023 (11th ed.). Sustainable Development Solutions Network"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>             <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_linedraw</a></span><span class='op'>(</span><span class='op'>)</span> </span>
 <span></span>
 <span><span class='va'>plot1</span></span></code></pre>
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
 </div>
-<p>In this visualization we have GDP per capita as the independent variable and happiness score as the dependent variable. With each country represented by a scatter plot point, we can infer a positive relationship between GDP per capita and happiness score. Here, through the geom_smooth function, I have added a smoothed curve that summarized the relationship between these variables. This function uses a loess smoother to estimate the conditional means of the happiness score (y axis variable) as a function of the GDP per capita (x axis variable).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>plot2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>WHDF2023</span>, </span>
-<span>       mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>social_support</span>, </span>
-<span>                     y <span class='op'>=</span> <span class='va'>happiness_score</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>plot2</span> <span class='op'>&lt;-</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>WHDF2023</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>social_support</span>, y <span class='op'>=</span> <span class='va'>happiness_score</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>         <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>         <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>lm <span class='op'>=</span> <span class='va'>loess</span>, color <span class='op'>=</span> <span class='st'>"orange"</span><span class='op'>)</span> <span class='op'>+</span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Social Support and Happiness"</span>, x <span class='op'>=</span> <span class='st'>"Social Support"</span>, y <span class='op'>=</span> <span class='st'>"Happiness"</span><span class='op'>)</span> <span class='op'>+</span> </span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_linedraw</a></span><span class='op'>(</span><span class='op'>)</span> </span>
+<span>         <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='va'>lm</span>, color <span class='op'>=</span> <span class='st'>"orange"</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>         <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Social Support and Happiness"</span>, </span>
+<span>              x <span class='op'>=</span> <span class='st'>"Social Support"</span>, </span>
+<span>              y <span class='op'>=</span> <span class='st'>"Happiness"</span>, </span>
+<span>              caption <span class='op'>=</span> <span class='st'>"Source: World Happiness Report 2023 (11th ed.). Sustainable Development Solutions Network"</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>              <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_linedraw</a></span><span class='op'>(</span><span class='op'>)</span> </span>
 <span></span>
 <span><span class='va'>plot2</span></span></code></pre>
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
-<p>Use findings to reject the hypothesis that a change in GDP and social support do NOT change the score.</p>
-<p>We reject the null hypothesis if p is greater than alpha value, which will be .05.</p>
-<p>Below is a regression model of the data pertaining to GDP per capita and social support. Here, we are able to observe exactly how happiness is impacted depending on changes of the following variables.</p>
+<p>Both of these scatter plots illustrate the single-variate regressions of GDP per capita and social support on happiness score. In the first visualization, we have GDP per capita as the independent variable and happiness score as the dependent variable. With each country represented by a scatter plot point, we can infer a positive relationship between GDP per capita and happiness score. Here, through the geom_smooth function and the argument “method = lm,” I have added an orange regression line that summarized the relationship between these variables. This regression line highlights how as GDP per capita increases, so does the happiness score of the country. In the second visualization, we have social support as the independent variable and happiness score as the dependent variable. Again, we observe a positive relationship, this time between social support and happiness score. As social support increases, so does happiness score.</p>
+<p>Although the relationship between happiness score and GDP per capita presents a very similar positive relationship as the relationship between happiness score and socials support, these linear regressions are certainly not the same. To properly compare the two relationships, we must leverage a more specific regression model. Below lies a fitted regression model for the data pertaining to GDP per capita and social support. Now, we are able to observe exactly how happiness is impacted depending on changes of the following variables through performing linear regressions of GDP per capita and social support on happiness score changes of countries.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://broom.tidymodels.org/'>broom</a></span><span class='op'>)</span></span>
@@ -3614,8 +3617,6 @@ F-statistic: 210.7 on 2 and 134 DF,  p-value: &lt; 2.2e-16</code></pre>
 1 (Intercept)      -1.72     0.383      -4.49 1.51e- 5
 2 GDP_per_capita    0.349    0.0594      5.88 3.05e- 8
 3 social_support    4.95     0.555       8.93 2.90e-15</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tidy_fit_regression</span> <span class='op'>&lt;-</span> <span class='va'>tidy_fit</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kbl.html'>kbl</a></span><span class='op'>(</span>caption <span class='op'>=</span> <span class='st'>"Main Regression"</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Term"</span>, <span class='st'>"Estimate"</span>, <span class='st'>"Standard Error"</span>, <span class='st'>"Statistic"</span>, <span class='st'>"P Value"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kable_classic.html'>kable_classic</a></span><span class='op'>(</span>html_font <span class='op'>=</span> <span class='st'>"Cambria"</span><span class='op'>)</span></span>
@@ -3623,7 +3624,7 @@ F-statistic: 210.7 on 2 and 134 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <table class=" lightable-classic" style="font-family: Cambria; margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:unnamed-chunk-6">Table 2: </span>Main Regression
+<span id="tab:unnamed-chunk-5">Table 2: </span>Main Regression
 </caption>
 <thead>
 <tr>
@@ -3706,11 +3707,11 @@ social_support
 <span><span class='st'>"GDP_per_capita"</span> <span class='op'>=</span> <span class='st'>"GDP per capita"</span>,</span>
 <span><span class='st'>"social_support"</span> <span class='op'>=</span> <span class='st'>"Social Support"</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='fu'>modelsummary</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/modelsummary/man/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='va'>fit</span>, statistic <span class='op'>=</span> <span class='st'>"p.value"</span>,</span>
-<span>                          gof_map <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nobs"</span>, </span>
-<span>                          <span class='st'>"r.squared"</span>,<span class='st'>"adj.r.squared"</span><span class='op'>)</span>, </span>
-<span>                          coef_map <span class='op'>=</span> <span class='va'>var_labels</span><span class='op'>)</span> <span class='op'>|&gt;</span> </span>
-<span>  <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kable_classic.html'>kable_classic</a></span><span class='op'>(</span>full_width <span class='op'>=</span> <span class='cn'>F</span>, html_font <span class='op'>=</span> <span class='st'>"Cambria"</span><span class='op'>)</span></span></code></pre>
+<span><span class='fu'>modelsummary</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/modelsummary/man/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='va'>fit</span>, </span>
+<span>                           statistic <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"s.e. = {std.error}"</span>,<span class='st'>"p = {p.value}"</span><span class='op'>)</span>,</span>
+<span>                           gof_map <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nobs"</span>, <span class='st'>"r.squared"</span>,<span class='st'>"adj.r.squared"</span><span class='op'>)</span>, </span>
+<span>                           coef_map <span class='op'>=</span> <span class='va'>var_labels</span><span class='op'>)</span> <span class='op'>|&gt;</span> </span>
+<span>                           <span class='fu'><a href='https://rdrr.io/pkg/kableExtra/man/kable_classic.html'>kable_classic</a></span><span class='op'>(</span>full_width <span class='op'>=</span> <span class='cn'>F</span>, html_font <span class='op'>=</span> <span class='st'>"Cambria"</span><span class='op'>)</span></span></code></pre>
 </div>
 <table class="table lightable-classic" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: Cambria; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -3735,7 +3736,14 @@ Intercept
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-(&lt;0.001)
+s.e. = 0.383
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+p = &lt;0.001
 </td>
 </tr>
 <tr>
@@ -3750,7 +3758,14 @@ GDP per capita
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-(&lt;0.001)
+s.e. = 0.059
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+p = &lt;0.001
 </td>
 </tr>
 <tr>
@@ -3762,10 +3777,17 @@ Social Support
 </td>
 </tr>
 <tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 0.555
+</td>
+</tr>
+<tr>
 <td style="text-align:left;box-shadow: 0px 1.5px">
 </td>
 <td style="text-align:center;box-shadow: 0px 1.5px">
-(&lt;0.001)
+p = &lt;0.001
 </td>
 </tr>
 <tr>
@@ -3813,6 +3835,9 @@ R2 Adj.
 </div>
 <pre><code>[1] 2.904365e-15</code></pre>
 </div>
+<p>With the above model, we can observe how happiness changes based on the specific variables that we want to observe for the study, i.e. GDP per capita and social support. Firstly, the intercept points to the mean value of the response variable, happiness score, when the independent variables (GDP per capita and social support are) held equal to zero. This is to say that the happiness score would be negative when GDP per capita and social support are zero. The standard error for the GDP per capita input is 0.059. Because standard error estimates how much variation we can expect to see in our estimated coefficient across repeated samples, we can infer from this standard error is therefore communicating that we can expect that the average estimated coefficient is around 0.059 away from its true value. Similarly, with the coefficient of social support, we can conclude that we can expect that the average estimated coefficient is around 0.555 away from its true value.</p>
+<p>The following estimated coefficients within this multiple regression represent the average effect of a one-unit change in the independent variables on the dependent variable (holding other independent variables constant) The estimated coefficient on GDP per capita is 0.349 and the estimated coefficient on social support is 4.95. This means that a country with a higher GDP results in happiness score increase, a change, by 0.349, while a country with a higher social support score results in an increase of 4.953, holding all else equal. Therefore social support had a greater effect with compared to GDP per capita. Moreover, the following coefficients in this regression have extremely small p-values. Therefore, the estimated coefficient of GDP per capita and social support are in fact statistically significant at the 0.05 level. These estimated coefficients are statistically significant at the 0.05 level because of their p-values being less than 0.05. The p-value is the probability of observing data as OR more extreme as our data if the null hypothesis is true. A smaller p-value implies stronger evidence AGAINST the null, not necessarily against the probability that the null is true. With a test level of alpha being 0.05 (the rejection region) and the p-value being LESS than 0.05 (the test level/the threshold for the test), we can deem these estimated coefficients as statistically significant. we CAN reject the null hypothesis of no effect. The null hypothesis of this experiment would be that a change in GDP per capita and social support score does not effect the overall happiness score of a country. From this model, we can confirm that a greater GDP per capita and social support score is associated with an increase in the happiness score of a country, conditional on the covariets. But this certainly does not mean that we can confidently claim that each coefficient represents a casual effect. I say this because the following regression failed to include four other variables that were used to measure happiness (i.e. health, freedom, generosity, and corruption). This means that the correlation that we observe here may be due to one of the other variables not present in the regression, particularly another variable that drives the happiness score of the study. With this reality in mind, I would be wary to interpret the following coefficients of interests causally. To be able to truly estimate casual effects with this multiple regression, we would need to be confident in our independent variables (GDP per capita and social support) are not impacted by other factors outside of the study. Only through this could we promise that the correlation between happiness and GDP per capita/social support is not confounded by other causes. Therefore, the causal assumption of a greater GDP per capita and social support score causing an increase in happiness CANNOT be fully satisfied. One possible confounder, another variable in the data/outside the data that might be related to treatment/outcome, includes the varying definition of wealth. Certainly, a country may have a high GDP AND a high happiness score. Yet, both of these facts were driven by a higher level of education across the country. Thus, we cannot conidently state that a high GDP causes a high happiness score.</p>
+<h2 id="conclusion">Conclusion</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
