@@ -152,6 +152,7 @@ The above results demonstrate that there is indeed a positive relationship betwe
 
 However, this support does not mean that we can confidently uphold this hypothesis. There are limitations of this analysis, along with threats to inference. These limitations include the previously mentioned confounding variables and most notably missing data from countries. This matters because again, the correlation that we observe here may be due to other variables not present in the regression. And with a lack of data of countries, it would be false for us to make a generalized statement for the world, as not all countries would be participating. To improve this analysis if I had more time and money, I would seek to find a way to conduct research in unlisted countries. On a more practical level, I would attempt to actually explore confounding variables rather than just acknowledge them. I think it would be interesting to analyze how education drives one's wealth/a country's GDP and even one's happiness. This exploration of confounding variables may open the door to the discovery of variables that effect happiness on a greater scale. This would then point governments to form legislation on these more significant variables, like education perhaps.
 
+
 ## Works Cited
 
 The Comprehensive R Archive Network, cran.r-project.org/web/packages/rworldmap/vignettes/rworldmap.pdf.
