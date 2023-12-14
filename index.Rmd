@@ -8,19 +8,19 @@ output:
 ---
 
 ## Research Question and Main Hypothesis 
-The following project aims to explore the universal strive towards happiness in a world that makes this endeavor seem nearly impossible. What particular factors of one's life and state significantly impact one's happiness? In particular, does one's economic standing play a greater role in one's happiness compared to more social factors, one's relationships? This projects hopes to debunk the notion that "money makes you happy." Thus, I hypothesize that indeed one's relationships more significantly influence one's happiness compared to that of one's economic standing, money.
+The following project aims to explore the universal strive towards happiness in a world that makes this endeavor seem nearly impossible. What particular factors of one's life and state significantly impact one's happiness? In particular, does one's economic standing play a significant role in one's happiness? What about one's relationships? This projects hopes to debunk the notion that "money makes you happy." Thus, I hypothesize that indeed one's relationships more significantly influence one's happiness compared to that of one's economic standing, money.
 
 Certainly, one cannot control the happiness of another. However, governments still have an obligation to consider the happiness of its citizens. After all, it is governments who are in a position of power to pursue the necessary means to enact such state-wide change. Therefore, through identifying what exactly drives one's happiness, governments can better formulate initiatives to ensure the achievement of happiness for its citizens, more specifically the accessibility of this universal right. This is to say that the following research question is important as it guides governments on how to address humanity's greater strive towards happiness and universal right to achieving happiness. 
 
-## Data Section
+## Data Section: Source, Measurement of Independent and Dependent Variables, Research Design
 
 To answer this question of what factor influences one's happiness the most, this research project will be using data from the World Happiness Report for the year of 2023. This report stems from the Sustainable Development Solutions Network, which is driven by the Gallup World Poll data. More importantly, the following organization similarly aims to explore happiness with the goal of calling upon governments to consider their own roles in the happiness of its citizens. The data of the report was collected through evaluations made by respondents regarding their own perception of their happiness on the "Cantril ladder." In the context of this source and thus this report, happiness is defined as one's "life evaluation." The following scale asked respondents to think of a ladder with 10 representing one's "best possible life" and 0 representing the worst. They ultimately rated their own lives on that scale. This information was then observed on six variables (social support, healthy life expectancy, freedom, generosity, corruption, and GDP per capita). Therefore, the happiness rankings that are earned by countries are not based on these factors, but rather the individual assessments of respondents on their lives (i.e. their answer to the Cantril ladder evaluation). (https://worldhappiness.report/about/)
 
-The Gallup World Poll data, the main source of the World Happiness Report, is a survey based data collecting tool. According to the Gallup agency, this poll is conducted through a combination of telephone surveying along with in-person interviewing. For countries that have telephone coverage for at least 80% of the population, telephone surveys are leveraged. Additionally, where telephone interviewing is employed, a random-digit-dial is used. In countries that do not have the above telephone coverage, households are randomly selected for in-person interviewing. Therefore, the RESEARCH DESIGN of this data is a randomized experiment. (https://www.gallup.com/178667/gallup-world-poll-work.aspx)
+The Gallup World Poll data, the main source of the World Happiness Report, is a survey based data collecting tool. According to the Gallup agency, this poll is conducted through a combination of telephone surveying along with in-person interviewing. For countries that have telephone coverage for at least 80% of the population, telephone surveys are leveraged. Additionally, where telephone interviewing is employed, a random-digit-dial is used. In countries that do not have the above telephone coverage, households are randomly selected for in-person interviewing.  (https://www.gallup.com/178667/gallup-world-poll-work.aspx)
 
-The above research question can be simplified to exploring the influence of GDP per capita and one's relationships (social support) on one's happiness. Therefore, the main outcome of interest is happiness score, our dependent variable. The independent variables in this case, are a country's GDP per capita and its score of social support. 
+The above research question can be simplified to exploring the influence of GDP per capita (representing income/money) and one's relationships (social support) on one's happiness. Therefore, the main outcome of interest is happiness score, our dependent variable. The independent variables in this case, are a country's GDP per capita and its score of social support. This exploration of the relationship between happiness score and the above independent variables demonstrates that this report uses a correlational research design. Put simply, this report is an investigation of relationships between variables without manipulating or controlling them.  
 
-##Dataset Cleaning and Main Outcome of Interest
+## Dataset Cleaning and Main Outcome of Interest
 ```{r}
 library(tidyverse)
 library(dplyr)
@@ -49,50 +49,52 @@ WHDF2023 |>
 ```{r}
 library(rworldmap)
 library(RColorBrewer)
-happ_mapp_data <- data.frame(
+d <- data.frame(
   country=WHDF2023$country,
   value=WHDF2023$happiness_score)
-happ_mapp_cols <- colorRampPalette(brewer.pal(7,"YlOrRd"))(length(WHDF2023))
-happ_mapp <- invisible(joinCountryData2Map(d, joinCode="NAME", nameJoinColumn="country"))
+cols <- colorRampPalette(brewer.pal(7,"YlOrRd"))(length(WHDF2023))
+n <- invisible(joinCountryData2Map(d, joinCode="NAME", nameJoinColumn="country"))
 mapCountryData(n, nameColumnToPlot="value", mapTitle="Distribution of Happiness Globally",colourPalette=cols, oceanCol = "#88E2F2", addLegend = TRUE,aspect = 1.1, borderCol = "Black", lwd =.1) 
-happ_mapp
+
 
 ```
-Here lies a distribution of happiness, our main outcome of interest, across the world. One 
+Here lies a distribution of happiness, our main outcome of interest, across the world. The dependent variable of this project is happiness score as we are exploring how GDP per capita and social support influences a country's reported happiness score. As we can see from this map and the above data set, the following project is missing countries. More specifically, there are only 137 rather than 195 countries. Nevertheless, the following visual illustrates the range of happiness scores across the globe. Depending on the shade of each given country, one is able to determine the happiness score of the country. A lighter shade, closer to a pale yellow signifies a lower happiness score. On the other hand, a darker shade, closer to the deep maroon, signifies a higher happiness score. For instance, from this map it is clear that the United States, Canada, Australia, and Finland have higher level of happiness. Furthermore, countries such as Afghanistan, Sierra Leona, and India are less happy then the previously mentioned countries, their happiness score is lower on the index. 
 
-##Main Analaysis & Regression Output 
+## Main Analaysis & Regression Output 
 
 To be able to compare the effect of GDP per capita and social support, it is essential that we first start by recognizing the relationship between happiness and both variables (i.e. GDP per capita and social support). Again, our main outcome of interest is a country's happiness score. Thus, below lies two scatter plots that reveal how GDP per capita and social relationships influence a country's happiness score, whether this is positive or negative. 
 
 ```{r}
-plot1 <- ggplot(data = WHDF2023, 
-       mapping = aes(x = GDP_per_capita, 
-                     y = happiness_score)) + 
+plot1 <- ggplot(data = WHDF2023, mapping = aes(x = GDP_per_capita, y = happiness_score)) + 
         geom_point() +
-         geom_smooth(color = "orange") + 
-         labs(title = "GDP per capita and Happiness", x = "GDP per capita", y = "Happiness") + theme_linedraw() 
+        geom_smooth(method = lm, color = "orange", se = FALSE) + 
+        labs(title = "GDP per capita and Happiness", 
+             x = "GDP per capita", 
+             y = "Happiness", 
+             caption = "Source: World Happiness Report 2023 (11th ed.). Sustainable Development Solutions Network") +
+             theme_linedraw() 
 
 plot1
 ```
 
-In this visualization we have GDP per capita as the independent variable and happiness score as the dependent variable. With each country represented by a scatter plot point, we can infer a positive relationship between GDP per capita and happiness score. Here, through the geom_smooth function, I have added a smoothed curve that summarized the relationship between these variables. This function uses a loess smoother to estimate the conditional means of the happiness score (y axis variable) as a function of the GDP per capita (x axis variable). 
+  
 
 ```{r}
-plot2 <- ggplot(data = WHDF2023, 
-       mapping = aes(x = social_support, 
-                     y = happiness_score)) +
+plot2 <- 
+  ggplot(data = WHDF2023, mapping = aes(x = social_support, y = happiness_score)) +
          geom_point() +
-         geom_smooth(lm = loess, color = "orange") +  labs(title = "Social Support and Happiness", x = "Social Support", y = "Happiness") + 
-  theme_linedraw() 
+         geom_smooth(method = lm, color = "orange", se = FALSE) + 
+         labs(title = "Social Support and Happiness", 
+              x = "Social Support", 
+              y = "Happiness", 
+              caption = "Source: World Happiness Report 2023 (11th ed.). Sustainable Development Solutions Network") + 
+              theme_linedraw() 
 
 plot2
 ```
+Both of these scatter plots illustrate the single-variate regressions of GDP per capita and social support on happiness score. In the first visualization, we have GDP per capita as the independent variable and happiness score as the dependent variable. With each country represented by a scatter plot point, we can infer a positive relationship between GDP per capita and happiness score. Here, through the geom_smooth function and the argument "method = lm," I have added an orange regression line that summarized the relationship between these variables. This regression line highlights how as GDP per capita increases, so does the happiness score of the country. In the second visualization, we have social support as the independent variable and happiness score as the dependent variable. Again, we observe a positive relationship, this time between social support and happiness score. As social support increases, so does happiness score. 
 
-Use findings to reject the hypothesis that a change in GDP and social support do NOT change the score. 
-
-We reject the null hypothesis if p is greater than alpha value, which will be .05. 
-
-Below is a regression model of the data pertaining to GDP per capita and social support. Here, we are able to observe exactly how happiness is impacted depending on changes of the following variables. 
+Although the relationship between happiness score and GDP per capita presents a very similar positive relationship as the relationship between happiness score and socials support, these linear regressions are certainly not the same. To properly compare the two relationships, we must leverage a more specific regression model. Below lies a fitted regression model for the data pertaining to GDP per capita and social support. Now, we are able to observe exactly how happiness is impacted depending on changes of the following variables through performing linear regressions of GDP per capita and social support on happiness score changes of countries. 
 
 ```{r}
 library(broom)
@@ -102,13 +104,11 @@ summary(fit)
 tidy_fit <- tidy(fit)
 tidy_fit
 
-```
-```{r}
 tidy_fit_regression <- tidy_fit |> kbl(caption = "Main Regression", col.names = c("Term", "Estimate", "Standard Error", "Statistic", "P Value")) |>
   kable_classic(html_font = "Cambria")
 tidy_fit_regression
-```
 
+```
 
 ```{r}
 var_labels <- c(
@@ -116,11 +116,11 @@ var_labels <- c(
 "GDP_per_capita" = "GDP per capita",
 "social_support" = "Social Support")
 
-modelsummary::modelsummary(fit, statistic = "p.value",
-                          gof_map = c("nobs", 
-                          "r.squared","adj.r.squared"), 
-                          coef_map = var_labels) |> 
-  kable_classic(full_width = F, html_font = "Cambria")
+modelsummary::modelsummary(fit, 
+                           statistic = c("s.e. = {std.error}","p = {p.value}"),
+                           gof_map = c("nobs", "r.squared","adj.r.squared"), 
+                           coef_map = var_labels) |> 
+                           kable_classic(full_width = F, html_font = "Cambria")
 ```
 
 
@@ -138,6 +138,12 @@ pull(p.value)
 SS_pval
 ```
 
+With the above model, we can observe how happiness changes based on the specific variables that we want to observe for the study, i.e. GDP per capita and social support. Firstly, the intercept points to the mean value of the response variable, happiness score, when the independent variables (GDP per capita and social support are) held equal to zero. This is to say that the happiness score would be negative when GDP per capita and social support are zero. The standard error for the GDP per capita input is 0.059. Because standard error estimates how much variation we can expect to see in our estimated coefficient across repeated samples, we can infer from this standard error is therefore communicating that we can expect that the average estimated coefficient is around 0.059 away from its true value. Similarly, with the coefficient of social support, we can conclude that we can expect that the average estimated coefficient is around 0.555 away from its true value. 
+
+The following estimated coefficients within this multiple regression represent the average effect of a one-unit change in the independent variables on the dependent variable (holding other independent variables constant) The estimated coefficient on GDP per capita is 0.349 and the estimated coefficient on social support is 4.95. This means that a country with a higher GDP results in happiness score increase, a change, by 0.349, while a country with a higher social support score results in an increase of 4.953, holding all else equal. Therefore social support had a greater effect with compared to GDP per capita. Moreover, the following coefficients in this regression have extremely small p-values. Therefore, the estimated coefficient of GDP per capita and social support are in fact statistically significant at the 0.05 level. These estimated coefficients are statistically significant at the 0.05 level because of their p-values being less than 0.05. The p-value is the probability of observing data as OR more extreme as our data if the null hypothesis is true. A smaller p-value implies stronger evidence AGAINST the null, not necessarily against the probability that the null is true. With a test level of alpha being 0.05 (the rejection region) and the p-value being LESS than 0.05 (the test level/the threshold for the test), we can deem these estimated coefficients as statistically significant. we CAN reject the null hypothesis of no effect. The null hypothesis of this experiment would be that a change in GDP per capita and social support score does not effect the overall happiness score of a country. From this model, we can confirm that a greater GDP per capita and social support score is associated with an increase in the happiness score of a country, conditional on the covariets. But this certainly does not mean that we can confidently claim that each coefficient represents a casual effect. I say this because the following regression failed to include four other variables that were used to measure happiness (i.e. health, freedom, generosity, and corruption). This means that the correlation that we observe here may be due to one of the other variables not present in the regression, particularly another variable that drives the happiness score of the study. With this reality in mind, I would be wary to interpret the following coefficients of interests causally. To be able to truly estimate casual effects with this multiple regression, we would need to be confident in our independent variables (GDP per capita and social support) are not impacted by other factors outside of the study. Only through this could we promise that the correlation between happiness and GDP per capita/social support is not confounded by other causes. Therefore, the  causal assumption of a greater GDP per capita and social support score causing an increase in happiness CANNOT be fully satisfied. One possible confounder, another variable in the data/outside the data that might be related to treatment/outcome, includes the varying definition of wealth. Certainly, a country may have a high GDP AND a high happiness score. Yet, both of these facts were driven by a higher level of education across the country. Thus, we cannot conidently state that a high GDP causes a high happiness score. 
+
+
+## Conclusion 
 
 
 
