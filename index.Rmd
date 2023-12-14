@@ -67,7 +67,7 @@ mapCountryData(n, nameColumnToPlot="value",
 ```
 Here lies a distribution of happiness, our main outcome of interest, across the world. The dependent variable of this project is happiness score as we are exploring how GDP per capita and social support influences a country's reported happiness score. As we can see from this map and the above data set, the following project is missing countries. More specifically, there are only 137 rather than 195 countries. Nevertheless, the following visual illustrates the range of happiness scores across the globe. Depending on the shade of each given country, one is able to determine the happiness score of the country. A lighter shade, closer to a pale yellow signifies a lower happiness score. On the other hand, a darker shade, closer to the deep maroon, signifies a higher happiness score. For instance, from this map it is clear that the United States, Canada, Australia, and Finland have higher level of happiness. Furthermore, countries such as Afghanistan, Sierra Leona, and India are less happy than the previously mentioned countries, their happiness score is lower on the index. 
 
-## Main Analaysis & Regression Output 
+## Main Analysis & Regression Output 
 
 To be able to compare the effect of GDP per capita and social support, it is essential that we first start by recognizing the relationship between happiness and both variables (i.e. GDP per capita and social support). Again, our main outcome of interest is a country's happiness score. Thus, below lies two scatter plots that reveal how GDP per capita and social relationships influence a country's happiness score, whether this is positive or negative. 
 
